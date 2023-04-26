@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
-using UnityEngine UI;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -14,14 +14,13 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI gameOverText;
     public bool isGameActive;
     public Button restartButton;
+    public GameObject titleScreen;
+    
 
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(SpawnTarget());
-        score = 0;
-        UpdateScore(0);
-        isGameActive = true;
+      
     }
 
     IEnumerator SpawnTarget()
@@ -41,14 +40,24 @@ public class GameManager : MonoBehaviour
     }
 
     public void GameOver()
-    {
-        restartButton.gameObject.SetActive(true);
+    { 
         gameOverText.gameObject.SetActive(true);
         isGameActive = false;
+        restartButton.gameObject.SetActive(true);
     }
 
     public void RestartGame()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void StartGame(int difficulty)
+    {
+        StartCoroutine(SpawnTarget());
+        score = 0;
+        UpdateScore(0);
+        isGameActive = true;
+        titleScreen.gameObject.SetActive(false);
+        spawnRate /= difficulty;
     }
 }
