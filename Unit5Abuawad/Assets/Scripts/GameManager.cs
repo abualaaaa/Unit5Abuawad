@@ -17,12 +17,22 @@ public class GameManager : MonoBehaviour
     public GameObject titleScreen;
     public TextMeshProUGUI livesText;
     private int lives;
+    public GameObject pauseScreen;
+    private bool paused;
     
 
     // Start is called before the first frame update
     void Start()
     {
       
+    }
+
+    void Update()
+    {
+        if  (Input.GetKeyDown(KeyCode.P))
+        {
+            ChangePaused();
+        }
     }
 
     IEnumerator SpawnTarget()
@@ -65,6 +75,7 @@ public class GameManager : MonoBehaviour
 
     public void StartGame(int difficulty)
     {
+        
         StartCoroutine(SpawnTarget());
         score = 0;
         UpdateScore(0);
@@ -72,5 +83,21 @@ public class GameManager : MonoBehaviour
         titleScreen.gameObject.SetActive(false);
         spawnRate /= 5;
         UpdateLives(3);
+    }
+
+    void ChangePaused()
+    {
+        if (!paused)
+        {
+            paused = true;
+            pauseScreen.SetActive(true);
+            Time.timeScale = 0;
+        }
+        else
+        {
+            paused = false;
+            pauseScreen.SetActive(false);
+            Time.timeScale = 1;
+        }
     }
 }
